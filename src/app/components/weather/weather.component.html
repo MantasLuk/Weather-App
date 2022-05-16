@@ -1,0 +1,63 @@
+<div class="container" >
+    <div class="row height d-flex justify-content-center align-items-center">
+        <div class="col-md-8">
+            <form #f="ngForm" (ngSubmit)="onSubmit(f)" class="search m-auto">
+                <div class="mb-3">
+                    <input type="text"  ngModel name="cityName" class="form-control" placeholder="Enter City Name" required>
+                </div>
+                <div>
+                    <button type="submit" class="btn btn-success" [disabled]="!f.valid" >Submit</button>
+                </div>
+            </form>
+        </div>
+    </div>
+    <div *ngIf="isSubmited && !error">
+        <div class="currentWeather">
+                <div class="row justify-content-center d-flex text-center pt-5 pb-5">
+                <div class="col-sm-6 "> 
+                    <div class="city">
+                        {{current.name}}, {{current.sys.country}}
+                    </div>
+                    <div>
+                        <div  class="temp">{{(current.main.temp).toFixed(0)}}&#8451;</div>
+                    </div>
+                    <h5>
+                        <div *ngIf="current.wind.deg == 360 || current.wind.deg == 0 "> Wind: {{current.wind.speed}} km/h, N </div>
+                        <div *ngIf="current.wind.deg > 0 && current.wind.deg < 90 "> Wind: {{current.wind.speed}} km/h, NE</div>
+                        <div *ngIf="current.wind.deg == 90 "> Wind: {{current.wind.speed}} km/h, E</div>
+                        <div *ngIf="current.wind.deg > 90 && current.wind.deg < 180 "> Wind: {{current.wind.speed}} km/h, SE</div>
+                        <div *ngIf="current.wind.deg == 180 "> Wind: {{current.wind.speed}} km/h, S</div>
+                        <div *ngIf="current.wind.deg > 180 && current.wind.deg < 270 "> Wind: {{current.wind.speed}} km/h, SW</div>
+                        <div *ngIf="current.wind.deg == 270 "> Wind: {{current.wind.speed}} km/h, W</div>
+                        <div *ngIf="current.wind.deg > 270 && current.wind.deg < 360 "> Wind: {{current.wind.speed}} km/h, NW</div>
+                    </h5>
+                </div >
+                <div class="col-sm-6">
+                    <img [src]=icon />
+                    <h5> {{current.weather[0].description}}</h5>
+                </div>
+            </div>
+            <google-map
+                    height="200px"
+                    width="100%"
+                    [zoom]="zoom"
+                    [center]="center"
+                    [options]="options"
+            ></google-map>
+        </div>  
+        <br>
+        <div class="hourlySection">
+            <h5 class="p-3">Hourly Forecast</h5>
+            <div class="d-flex justify-content-start align-items-center text-center hourly ">
+                <div *ngFor="let futureDay of forecast.list; let i = index">
+                    <div  class="m-3 me-5" >
+                        <h5>{{(forecast.list[i].dt * 1000 | date:'H:mm')}}</h5>
+                        <h1>{{forecast.list[i].main.temp.toFixed(0)}}&#8451;</h1>
+                    </div>
+            </div>
+        </div>
+    </div>
+</div>
+<div *ngIf="error">
+    <div class="alert alert-danger text-center" style="color: black;">Error! No such City or Country</div>
+</div>
