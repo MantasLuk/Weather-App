@@ -12,7 +12,7 @@ export class WeatherService {
 
   constructor(private http:HttpClient) {}
 
-  //getting main information about rurrent weather
+  //getting main information about current weather
   public loadCurrentWeather(cityName:string){
     return this.http.get<DetailsCurrent>(`https://api.openweathermap.org/data/2.5/weather?q=${cityName}&appid=${this.APIkey}&units=metric`)
   }
