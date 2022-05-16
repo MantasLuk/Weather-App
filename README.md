@@ -9,7 +9,7 @@ This project was generated with [Angular CLI](https://github.com/angular/angular
 
 Download files;
 
-Run `ng serve` for a dev server. Navigate to `http://localhost:4200/`.
+Run `ng serve` for a dev server. Navigate to `http://localhost:4200/`;
 
 Enter the desired city name to get the weather information.
 
